@@ -1,0 +1,2 @@
+include 'student-management-rest-api'
+include 'student-management-domain'
