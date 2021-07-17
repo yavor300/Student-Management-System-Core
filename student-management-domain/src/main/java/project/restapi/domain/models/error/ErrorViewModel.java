@@ -10,11 +10,6 @@ public class ErrorViewModel {
         this.errors = new ArrayList<>();
     }
 
-    public ErrorViewModel(String message) {
-        this.errors = new ArrayList<>();
-        this.errors.add(message);
-    }
-
     public void add(String message) {
         this.errors.add(message);
     }
