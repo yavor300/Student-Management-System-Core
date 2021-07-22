@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.restapi.constants.ErrorMessages;
+import project.restapi.constants.GradeValues;
 import project.restapi.domain.entities.Course;
 import project.restapi.domain.entities.Grade;
 import project.restapi.domain.entities.Teacher;
@@ -62,7 +63,16 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseAllResponse> getAllCourses() {
         return courseRepository.findAll()
                 .stream()
-                .map(course -> modelMapper.map(course, CourseAllResponse.class))
+                .map(course -> {
+                    CourseAllResponse courseAllResponse = modelMapper.map(course, CourseAllResponse.class);
+                    courseAllResponse.setAverageGrade(
+                            course.getGrades()
+                            .stream()
+                            .mapToDouble(Grade::getValue)
+                            .average()
+                            .orElse(GradeValues.EMPTY_AVERAGE_GRADE));
+                    return courseAllResponse;
+                })
                 .collect(Collectors.toList());
     }
 
