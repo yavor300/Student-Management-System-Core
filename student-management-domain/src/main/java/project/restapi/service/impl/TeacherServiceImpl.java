@@ -16,6 +16,7 @@ import project.restapi.domain.entities.enums.Degree;
 import project.restapi.domain.models.api.request.TeacherAddRequest;
 import project.restapi.domain.models.api.response.CourseAverageAll;
 import project.restapi.domain.models.api.response.TeacherAddResponse;
+import project.restapi.domain.models.api.response.TeacherAllResponse;
 import project.restapi.exceptions.ObjectAlreadyExistsException;
 import project.restapi.repository.RoleRepository;
 import project.restapi.repository.TeacherRepository;
@@ -23,6 +24,7 @@ import project.restapi.service.TeacherService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -88,5 +90,13 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<TeacherAllResponse> getAll() {
+        return teacherRepository.findAll()
+                .stream()
+                .map(teacher -> modelMapper.map(teacher, TeacherAllResponse.class))
+                .collect(Collectors.toList());
     }
 }

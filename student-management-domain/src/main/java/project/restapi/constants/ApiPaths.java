@@ -66,4 +66,6 @@ public class ApiPaths {
     public static final String COURSE_DELETE_TEACHER = "/delete/teacher";
 
     public static final String STUDENT_PROFILE = "/profile/{name}";
+
+    public static final String ALL_TEACHERS = "/all";
 }
