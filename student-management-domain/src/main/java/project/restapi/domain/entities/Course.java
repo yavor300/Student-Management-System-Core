@@ -1,5 +1,6 @@
 package project.restapi.domain.entities;
 
+import org.jetbrains.annotations.NotNull;
 import project.restapi.domain.entities.base.BaseEntity;
 
 import javax.persistence.*;
@@ -79,4 +80,5 @@ public class Course extends BaseEntity {
     public void setGrades(List<Grade> grades) {
         this.grades = grades;
     }
+
 }

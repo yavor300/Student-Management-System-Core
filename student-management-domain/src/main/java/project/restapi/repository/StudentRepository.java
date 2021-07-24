@@ -2,8 +2,10 @@ package project.restapi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import project.restapi.domain.entities.Course;
 import project.restapi.domain.entities.Student;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository

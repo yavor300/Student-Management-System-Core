@@ -1,6 +1,7 @@
 package project.restapi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -8,10 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import project.restapi.constants.ApiPaths;
 import project.restapi.domain.entities.Student;
+import project.restapi.domain.models.api.request.CourseAvailableStudentsRequest;
 import project.restapi.domain.models.api.request.StudentAddToCourseRequest;
 import project.restapi.domain.models.api.response.StudentAddToCourseResponse;
+import project.restapi.domain.models.api.response.StudentAvailableResponse;
 import project.restapi.domain.models.api.response.StudentProfileResponse;
 import project.restapi.service.StudentService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPaths.BASE_STUDENT)
@@ -49,5 +54,13 @@ public class StudentRestController {
     @GetMapping(ApiPaths.STUDENT_PROFILE)
     public ResponseEntity<StudentProfileResponse> getProfileData(@PathVariable String name) {
         return ResponseEntity.ok(studentService.getProfileData(name));
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @CrossOrigin
+    @PostMapping("/available")
+    public ResponseEntity<List<StudentAvailableResponse>> getStudentsNotInCourse(@RequestBody CourseAvailableStudentsRequest courseAvailableStudentsRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.studentService.getStudentsNotInCourse(courseAvailableStudentsRequest));
     }
 }

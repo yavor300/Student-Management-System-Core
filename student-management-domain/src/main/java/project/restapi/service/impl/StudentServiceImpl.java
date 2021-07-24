@@ -9,12 +9,10 @@ import project.restapi.domain.entities.Course;
 import project.restapi.domain.entities.Grade;
 import project.restapi.domain.entities.Student;
 import project.restapi.domain.models.api.mapping.CourseAndStudentsOrderedMapper;
+import project.restapi.domain.models.api.request.CourseAvailableStudentsRequest;
 import project.restapi.domain.models.api.request.StudentAddRequest;
 import project.restapi.domain.models.api.request.StudentAddToCourseRequest;
-import project.restapi.domain.models.api.response.CourseAllOrderedResponse;
-import project.restapi.domain.models.api.response.StudentAddResponse;
-import project.restapi.domain.models.api.response.StudentAddToCourseResponse;
-import project.restapi.domain.models.api.response.StudentProfileResponse;
+import project.restapi.domain.models.api.response.*;
 import project.restapi.exceptions.ObjectAlreadyExistsException;
 import project.restapi.exceptions.ObjectNotFoundException;
 import project.restapi.repository.CourseRepository;
@@ -149,6 +147,28 @@ public class StudentServiceImpl implements StudentService {
                 .average()
                 .orElse(0.00)
         );
+        return result;
+    }
+
+    @Override
+    public List<StudentAvailableResponse> getStudentsNotInCourse(CourseAvailableStudentsRequest courseAvailableStudentsRequest) {
+        List<StudentAvailableResponse> result = new ArrayList<>();
+
+        studentRepository.findAll()
+                .forEach(student -> {
+                    List<Course> courses = student.getCourses();
+                    boolean isEnrolled = false;
+                    for (Course course : courses) {
+                        if (course.getName().equalsIgnoreCase(courseAvailableStudentsRequest.getCourseName())) {
+                            isEnrolled = true;
+                            break;
+                        }
+                    }
+                    if (!isEnrolled) {
+                        result.add(modelMapper.map(student, StudentAvailableResponse.class));
+                    }
+                });
+
         return result;
     }
 }

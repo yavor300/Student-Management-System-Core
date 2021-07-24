@@ -1,11 +1,9 @@
 package project.restapi.service;
 
+import project.restapi.domain.models.api.request.CourseAvailableStudentsRequest;
 import project.restapi.domain.models.api.request.StudentAddRequest;
 import project.restapi.domain.models.api.request.StudentAddToCourseRequest;
-import project.restapi.domain.models.api.response.CourseAllOrderedResponse;
-import project.restapi.domain.models.api.response.StudentAddResponse;
-import project.restapi.domain.models.api.response.StudentAddToCourseResponse;
-import project.restapi.domain.models.api.response.StudentProfileResponse;
+import project.restapi.domain.models.api.response.*;
 
 import java.util.List;
 
@@ -21,4 +19,6 @@ public interface StudentService {
     Double getTotalAverageGradeStudentSelf(Long studentId);
 
     StudentProfileResponse getProfileData(String name);
+
+    List<StudentAvailableResponse> getStudentsNotInCourse(CourseAvailableStudentsRequest courseAvailableStudentsRequest);
 }
