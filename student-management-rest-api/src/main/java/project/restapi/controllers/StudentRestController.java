@@ -63,4 +63,10 @@ public class StudentRestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.studentService.getStudentsNotInCourse(courseAvailableStudentsRequest));
     }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/get/{id}")
+    public ResponseEntity<StudentProfileResponse> getStudentByName(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getById(id));
+    }
 }

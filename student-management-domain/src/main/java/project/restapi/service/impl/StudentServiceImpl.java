@@ -142,10 +142,10 @@ public class StudentServiceImpl implements StudentService {
 
         result.setAverageGrade(
                 student.getGrades()
-                .stream()
-                .mapToDouble(Grade::getValue)
-                .average()
-                .orElse(0.00)
+                        .stream()
+                        .mapToDouble(Grade::getValue)
+                        .average()
+                        .orElse(0.00)
         );
         return result;
     }
@@ -171,4 +171,13 @@ public class StudentServiceImpl implements StudentService {
 
         return result;
     }
+
+    @Override
+    public StudentProfileResponse getById(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(ErrorMessages.STUDENT_NOT_FOUND));
+
+        return modelMapper.map(student, StudentProfileResponse.class);
+    }
+
 }

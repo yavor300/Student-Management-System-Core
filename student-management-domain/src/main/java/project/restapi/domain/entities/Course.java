@@ -1,6 +1,5 @@
 package project.restapi.domain.entities;
 
-import org.jetbrains.annotations.NotNull;
 import project.restapi.domain.entities.base.BaseEntity;
 
 import javax.persistence.*;

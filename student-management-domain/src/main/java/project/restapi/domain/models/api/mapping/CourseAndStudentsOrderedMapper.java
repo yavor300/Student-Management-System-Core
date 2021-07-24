@@ -30,6 +30,7 @@ public class CourseAndStudentsOrderedMapper {
         course.getStudents().forEach(student -> {
             CourseAllOrderedStudentsOrderedResponse studentsOrderedByAverageGradeAscRestModel
                     = new CourseAllOrderedStudentsOrderedResponse();
+            studentsOrderedByAverageGradeAscRestModel.setStudentId(student.getId());
             studentsOrderedByAverageGradeAscRestModel.setStudentName(student.getName());
             studentsOrderedByAverageGradeAscRestModel.setGradeValue(
                     getAverageGradeForAStudentInCourse(student, course.getName()));

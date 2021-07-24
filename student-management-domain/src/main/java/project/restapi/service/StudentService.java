@@ -21,4 +21,6 @@ public interface StudentService {
     StudentProfileResponse getProfileData(String name);
 
     List<StudentAvailableResponse> getStudentsNotInCourse(CourseAvailableStudentsRequest courseAvailableStudentsRequest);
+
+    StudentProfileResponse getById(Long id);
 }
