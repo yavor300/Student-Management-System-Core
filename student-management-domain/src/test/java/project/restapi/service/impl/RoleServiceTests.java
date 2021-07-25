@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import project.restapi.domain.entities.Role;
 import project.restapi.repository.RoleRepository;
 import project.restapi.service.RoleService;
@@ -24,7 +25,7 @@ public class RoleServiceTests {
     @Before
     public void init() {
         mockRoleRepository = Mockito.mock(RoleRepository.class);
-        roleService = new RoleServiceImpl(mockRoleRepository);
+        roleService = new RoleServiceImpl(mockRoleRepository, new ModelMapper());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package project.restapi.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import project.restapi.domain.entities.base.BaseEntity;
 
@@ -13,7 +14,9 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role extends BaseEntity implements GrantedAuthority {
     private String authority;
+    @JsonIgnore
     private Set<Student> students;
+    @JsonIgnore
     private Set<Teacher> teachers;
 
     public Role() {

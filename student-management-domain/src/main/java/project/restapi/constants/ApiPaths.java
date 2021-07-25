@@ -57,8 +57,8 @@ public class ApiPaths {
 
     public static final String GET_TEACHER = "/teacher/{name}";
 
-    public static final String ALL_STUDENTS = "/students/{name}"
-            ;
+    public static final String ALL_STUDENTS = "/students/{name}";
+
     public static final String STUDENTS_GRADES = "/students/grades/{name}";
 
     public static final String COURSE_AVERAGE_GRADE = "/grade/{name}";
@@ -68,4 +68,9 @@ public class ApiPaths {
     public static final String STUDENT_PROFILE = "/profile/{name}";
 
     public static final String ALL_TEACHERS = "/all";
+
+    public static final String ALL_USERS = "/all/users";
+
+    public static final String ALL_ROLES = "/all";
+    public static final String CHANGE_ROLE = "/change";
 }

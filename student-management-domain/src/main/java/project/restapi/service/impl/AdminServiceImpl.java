@@ -10,16 +10,17 @@ import project.restapi.constants.RoleValues;
 import project.restapi.domain.entities.*;
 import project.restapi.domain.models.api.request.ChangeRoleStudentRequest;
 import project.restapi.domain.models.api.request.ChangeRoleTeacherRequest;
+import project.restapi.domain.models.api.request.RoleChangeRequest;
 import project.restapi.domain.models.api.response.ChangeRoleStudentResponse;
 import project.restapi.domain.models.api.response.ChangeRoleTeacherResponse;
 import project.restapi.domain.models.api.response.CourseAllWithTeacherAndAverageResponse;
+import project.restapi.domain.models.api.response.UserAllResponse;
 import project.restapi.exceptions.ObjectNotFoundException;
 import project.restapi.repository.*;
 import project.restapi.service.AdminService;
 import project.restapi.service.RoleService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -173,5 +174,73 @@ public class AdminServiceImpl implements AdminService {
             result.add(response);
         }
         return result;
+    }
+
+    @Override
+    public List<UserAllResponse> getAllUsers() {
+        List<UserAllResponse> result = new ArrayList<>();
+
+        administratorRepository.findAll()
+                .stream()
+                .map(administrator -> modelMapper.map(administrator, UserAllResponse.class))
+                .forEach(result::add);
+
+        teacherRepository.findAll()
+                .stream()
+                .map(teacher -> modelMapper.map(teacher, UserAllResponse.class))
+                .forEach(result::add);
+
+        studentRepository.findAll()
+                .stream()
+                .map(student -> modelMapper.map(student, UserAllResponse.class))
+                .forEach(result::add);
+
+        return result;
+    }
+
+    @Override
+    public UserAllResponse changeUserRoles(RoleChangeRequest roleChangeRequest) {
+        Optional<Student> optionalStudent = studentRepository.findByUsername(roleChangeRequest.getUsername());
+        Optional<Teacher> optionalTeacher = teacherRepository.findByUsername(roleChangeRequest.getUsername());
+        Optional<Administrator> optionalAdministrator = administratorRepository.findByUsername(roleChangeRequest.getUsername());
+
+        if (optionalStudent.isEmpty() && optionalTeacher.isEmpty() && optionalAdministrator.isEmpty()) {
+            throw new ObjectNotFoundException(ErrorMessages.USER_NOT_FOUND);
+        }
+
+        UserAllResponse userAllResponse = new UserAllResponse();
+
+        Set<Role> authorities = new HashSet<>();
+
+        switch (roleChangeRequest.getRole()) {
+            case RoleValues.ADMIN -> {
+                authorities = roleService.getRolesForAdmin();
+                setNewRoles(optionalStudent, optionalTeacher, optionalAdministrator, userAllResponse, authorities);
+            }
+            case RoleValues.TEACHER -> {
+                authorities.add(roleRepository.findByAuthority(RoleValues.STUDENT));
+                authorities.add(roleRepository.findByAuthority(RoleValues.TEACHER));
+                setNewRoles(optionalStudent, optionalTeacher, optionalAdministrator, userAllResponse, authorities);
+            }
+            case RoleValues.STUDENT -> {
+                authorities.add(roleRepository.findByAuthority(RoleValues.STUDENT));
+                setNewRoles(optionalStudent, optionalTeacher, optionalAdministrator, userAllResponse, authorities);
+            }
+        }
+
+        return userAllResponse;
+    }
+
+    private void setNewRoles(Optional<Student> optionalStudent, Optional<Teacher> optionalTeacher, Optional<Administrator> optionalAdministrator, UserAllResponse userAllResponse, Set<Role> authorities) {
+        if (optionalStudent.isPresent()) {
+            optionalStudent.get().setAuthorities(authorities);
+            modelMapper.map(studentRepository.saveAndFlush(optionalStudent.get()), userAllResponse);
+        } else if (optionalTeacher.isPresent()) {
+            optionalTeacher.get().setAuthorities(authorities);
+            modelMapper.map(teacherRepository.saveAndFlush(optionalTeacher.get()), userAllResponse);
+        } else if (optionalAdministrator.isPresent()) {
+            optionalAdministrator.get().setAuthorities(authorities);
+            modelMapper.map(administratorRepository.saveAndFlush(optionalAdministrator.get()), userAllResponse);
+        }
     }
 }
