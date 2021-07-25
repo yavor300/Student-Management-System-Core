@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import project.restapi.constants.ApiPaths;
+import project.restapi.constants.GradeValues;
 import project.restapi.domain.entities.Student;
 import project.restapi.domain.models.api.request.CourseAvailableStudentsRequest;
 import project.restapi.domain.models.api.request.StudentAddToCourseRequest;
@@ -39,7 +40,12 @@ public class StudentRestController {
     @GetMapping(ApiPaths.STUDENT_AVERAGE_SELF)
     public ResponseEntity<Double> getTotalAverageSelf() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Student student = (Student) authentication.getPrincipal();
+        Student student;
+        try {
+            student = (Student) authentication.getPrincipal();
+        } catch (ClassCastException e) {
+            return ResponseEntity.ok(GradeValues.EMPTY_AVERAGE_GRADE);
+        }
         return ResponseEntity.ok(studentService.getTotalAverageGradeStudentSelf(student.getId()));
     }
 
