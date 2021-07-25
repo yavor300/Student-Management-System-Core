@@ -174,10 +174,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentProfileResponse getById(Long id) {
+
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(ErrorMessages.STUDENT_NOT_FOUND));
 
-        return modelMapper.map(student, StudentProfileResponse.class);
+        List<CourseAllResponse> courseAllResponses = student.getCourses()
+                .stream()
+                .map(course -> modelMapper.map(course, CourseAllResponse.class))
+                .collect(Collectors.toList());
+
+        StudentProfileResponse studentProfileResponse = modelMapper.map(student, StudentProfileResponse.class);
+        studentProfileResponse.setCoursesEnrolled(courseAllResponses);
+
+        return studentProfileResponse;
     }
 
 }

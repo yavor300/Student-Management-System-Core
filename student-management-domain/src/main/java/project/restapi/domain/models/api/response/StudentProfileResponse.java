@@ -1,5 +1,7 @@
 package project.restapi.domain.models.api.response;
 
+import java.util.List;
+
 public class StudentProfileResponse {
     private Long id;
     private String name;
@@ -7,6 +9,7 @@ public class StudentProfileResponse {
     private Integer age;
     private Integer coursesAttended;
     private Double averageGrade;
+    private List<CourseAllResponse> coursesEnrolled;
 
     public StudentProfileResponse() {
     }
@@ -57,5 +60,13 @@ public class StudentProfileResponse {
 
     public void setAverageGrade(Double averageGrade) {
         this.averageGrade = averageGrade;
+    }
+
+    public List<CourseAllResponse> getCoursesEnrolled() {
+        return coursesEnrolled;
+    }
+
+    public void setCoursesEnrolled(List<CourseAllResponse> coursesEnrolled) {
+        this.coursesEnrolled = coursesEnrolled;
     }
 }

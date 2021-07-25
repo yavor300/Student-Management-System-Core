@@ -72,7 +72,7 @@ public class StudentRestController {
 
     @PreAuthorize("hasRole('STUDENT')")
     @GetMapping("/get/{id}")
-    public ResponseEntity<StudentProfileResponse> getStudentByName(@PathVariable Long id) {
+    public ResponseEntity<StudentProfileResponse> getStudentById(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.getById(id));
     }
 }
