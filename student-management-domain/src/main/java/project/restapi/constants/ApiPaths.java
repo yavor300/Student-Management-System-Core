@@ -73,4 +73,5 @@ public class ApiPaths {
 
     public static final String ALL_ROLES = "/all";
     public static final String CHANGE_ROLE = "/change";
+    public static final String LOGGED_ID = "/logged";
 }

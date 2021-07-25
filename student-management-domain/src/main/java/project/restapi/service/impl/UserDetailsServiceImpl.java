@@ -9,6 +9,8 @@ import project.restapi.constants.ErrorMessages;
 import project.restapi.domain.entities.Administrator;
 import project.restapi.domain.entities.Student;
 import project.restapi.domain.entities.Teacher;
+import project.restapi.domain.models.api.request.LoggedInUserRequest;
+import project.restapi.domain.models.api.response.UserLoggedInResponse;
 import project.restapi.repository.AdministratorRepository;
 import project.restapi.repository.StudentRepository;
 import project.restapi.repository.TeacherRepository;
@@ -47,5 +49,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return Objects.requireNonNullElseGet(student, () -> Objects.requireNonNullElse(teacher, administrator));
+    }
+
+    public UserLoggedInResponse getLoggedInUser(LoggedInUserRequest loggedInUserRequest) {
+        return null;
     }
 }

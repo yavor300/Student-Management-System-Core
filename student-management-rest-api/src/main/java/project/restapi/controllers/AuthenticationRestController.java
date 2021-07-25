@@ -1,5 +1,6 @@
 package project.restapi.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import project.restapi.constants.ApiPaths;
+import project.restapi.domain.models.api.request.LoggedInUserRequest;
 import project.restapi.domain.models.api.request.StudentAddRequest;
 import project.restapi.domain.models.api.request.TeacherAddRequest;
 import project.restapi.domain.models.api.request.UserLoginRequest;
 import project.restapi.domain.models.api.response.AuthenticationResponse;
 import project.restapi.domain.models.api.response.StudentAddResponse;
 import project.restapi.domain.models.api.response.TeacherAddResponse;
+import project.restapi.domain.models.api.response.UserLoggedInResponse;
 import project.restapi.filters.JwtUtil;
 import project.restapi.service.StudentService;
 import project.restapi.service.TeacherService;
@@ -29,14 +32,16 @@ public class AuthenticationRestController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public AuthenticationRestController(StudentService studentService, TeacherService teacherService, AuthenticationManager authenticationManager, @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, JwtUtil jwtUtil) {
+    public AuthenticationRestController(StudentService studentService, TeacherService teacherService, AuthenticationManager authenticationManager, @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, JwtUtil jwtUtil, ModelMapper modelMapper) {
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.modelMapper = modelMapper;
     }
 
     @CrossOrigin(origins = "http://localhost:4200/")
@@ -63,5 +68,11 @@ public class AuthenticationRestController {
     @PostMapping(ApiPaths.REGISTER_TEACHER)
     public ResponseEntity<TeacherAddResponse> registerStudent(@RequestBody TeacherAddRequest teacherAddRequest) {
         return ResponseEntity.ok(teacherService.add(teacherAddRequest));
+    }
+
+    @CrossOrigin
+    @PostMapping(ApiPaths.LOGGED_ID)
+    public ResponseEntity<UserLoggedInResponse> getLoggedUser(@RequestBody LoggedInUserRequest loggedInUserRequest) {
+        return ResponseEntity.ok(modelMapper.map(userDetailsService.loadUserByUsername(loggedInUserRequest.getUsername()), UserLoggedInResponse.class));
     }
 }
