@@ -208,6 +208,10 @@ public class AdminServiceImpl implements AdminService {
             throw new ObjectNotFoundException(ErrorMessages.USER_NOT_FOUND);
         }
 
+        if (optionalTeacher.isPresent() && RoleValues.STUDENT.equals(roleChangeRequest.getRole())) {
+            throw new IllegalArgumentException(ErrorMessages.TEACHER_CANNOT_BE_DEMOTED_TO_STUDENT);
+        }
+
         UserAllResponse userAllResponse = new UserAllResponse();
 
         Set<Role> authorities = new HashSet<>();

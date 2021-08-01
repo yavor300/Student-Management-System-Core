@@ -151,8 +151,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course getByName(String name) {
-        return courseRepository.findByName(name)
+    public Course getByName(Long id) {
+        return courseRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(ErrorMessages.COURSE_DOES_NOT_EXIST));
     }
 }

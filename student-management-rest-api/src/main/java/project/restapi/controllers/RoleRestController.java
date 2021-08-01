@@ -59,7 +59,7 @@ public class RoleRestController {
         return ResponseEntity.ok(adminService.restoreStudent(changeRoleStudentRequest));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     @GetMapping(ApiPaths.ALL_ROLES)
     public ResponseEntity<List<RoleResponse>> getAllRoles() {
         return ResponseEntity.ok(roleService.getAll());

@@ -25,7 +25,7 @@ public class ApiPaths {
 
     public static final String COURSE_ALL_ORDERED = COURSE_ALL + "/ordered";
 
-    public static final String COURSE_AVERAGE = "/average/{name}";
+    public static final String COURSE_AVERAGE = "/average/{id}";
 
     public static final String BASE_GRADE = "/api/grade";
 

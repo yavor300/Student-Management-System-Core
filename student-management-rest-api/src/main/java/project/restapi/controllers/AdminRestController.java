@@ -30,7 +30,7 @@ public class AdminRestController {
         return ResponseEntity.ok(adminService.getAllCoursesWithTeachersAndAverage());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     @GetMapping(ApiPaths.ALL_USERS)
     public ResponseEntity<List<UserAllResponse>> getAllUsers() {
         return ResponseEntity.status(HttpStatus.CREATED)
