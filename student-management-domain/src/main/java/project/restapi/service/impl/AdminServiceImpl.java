@@ -179,22 +179,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<UserAllResponse> getAllUsers() {
         List<UserAllResponse> result = new ArrayList<>();
-
-        administratorRepository.findAll()
-                .stream()
-                .map(administrator -> modelMapper.map(administrator, UserAllResponse.class))
-                .forEach(result::add);
-
         teacherRepository.findAll()
                 .stream()
                 .map(teacher -> modelMapper.map(teacher, UserAllResponse.class))
                 .forEach(result::add);
-
-        studentRepository.findAll()
-                .stream()
-                .map(student -> modelMapper.map(student, UserAllResponse.class))
-                .forEach(result::add);
-
         return result;
     }
 
@@ -211,6 +199,18 @@ public class AdminServiceImpl implements AdminService {
         if (optionalTeacher.isPresent() && RoleValues.STUDENT.equals(roleChangeRequest.getRole())) {
             throw new IllegalArgumentException(ErrorMessages.TEACHER_CANNOT_BE_DEMOTED_TO_STUDENT);
         }
+
+        if (optionalTeacher.isPresent() && optionalTeacher.get().getAuthorities().size() == 3 &&
+        roleChangeRequest.getRole().equals(RoleValues.ADMIN)) {
+            throw new IllegalArgumentException(ErrorMessages.CHOOSE_DIFFERENT_ROLE);
+        }
+
+        if (optionalTeacher.isPresent() && optionalTeacher.get().getAuthorities().size() == 2 &&
+                roleChangeRequest.getRole().equals(RoleValues.TEACHER)) {
+            throw new IllegalArgumentException(ErrorMessages.CHOOSE_DIFFERENT_ROLE);
+        }
+
+
 
         UserAllResponse userAllResponse = new UserAllResponse();
 

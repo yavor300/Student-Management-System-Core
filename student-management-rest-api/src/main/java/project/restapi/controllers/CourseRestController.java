@@ -44,7 +44,7 @@ public class CourseRestController {
     @PreAuthorize("hasRole('STUDENT')")
     @GetMapping(ApiPaths.COURSE_AVERAGE)
     public ResponseEntity<CourseAllOrderedResponse> getAverageInCourse(@PathVariable Long id) {
-        return ResponseEntity.ok(CourseAndStudentsOrderedMapper.mapCourseAndStudents(courseService.getByName(id)));
+        return ResponseEntity.ok(CourseAndStudentsOrderedMapper.mapCourseAndStudents(courseService.getById(id)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

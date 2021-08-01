@@ -12,7 +12,7 @@ public interface CourseService {
 
     CourseAddTeacherResponse addTeacher(CourseAddTeacherRequest courseAddTeacherRequest);
 
-    Course getByName(Long id);
+    Course getById(Long id);
 
     List<CourseAllResponse> getAllCourses();
 

@@ -50,4 +50,7 @@ public class ErrorMessages {
     public static final String COURSE_DOES_NOT_HAVE_A_TEACHER = "The course does not have an assigned teacher!";
 
     public static final String TEACHER_CANNOT_BE_DEMOTED_TO_STUDENT = "Teacher cannot be demoted to student!";
+
+    public static final String CHOOSE_DIFFERENT_ROLE = "Choose different role!";
+
 }

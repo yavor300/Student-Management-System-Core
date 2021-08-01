@@ -3,6 +3,7 @@ package project.restapi.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.restapi.constants.RoleValues;
 import project.restapi.domain.entities.Role;
 import project.restapi.domain.models.api.request.RoleChangeRequest;
 import project.restapi.domain.models.api.response.RoleResponse;
@@ -44,6 +45,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleResponse> getAll() {
         return roleRepository.findAll()
                 .stream()
+                .filter(role -> !role.getAuthority().equals(RoleValues.STUDENT))
                 .map(role -> modelMapper.map(role, RoleResponse.class))
                 .collect(Collectors.toList());
     }
