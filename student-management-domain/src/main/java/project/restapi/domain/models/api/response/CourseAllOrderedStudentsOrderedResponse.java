@@ -1,9 +1,12 @@
 package project.restapi.domain.models.api.response;
 
+import java.util.List;
+
 public class CourseAllOrderedStudentsOrderedResponse {
     private Long studentId;
     private String studentName;
     private Double gradeValue;
+    List<Double> gradesGradeValue;
 
     public CourseAllOrderedStudentsOrderedResponse() {
     }
@@ -30,5 +33,13 @@ public class CourseAllOrderedStudentsOrderedResponse {
 
     public void setStudentId(Long studentId) {
         this.studentId = studentId;
+    }
+
+    public List<Double> getGradesGradeValue() {
+        return gradesGradeValue;
+    }
+
+    public void setGradesGradeValue(List<Double> gradesGradeValue) {
+        this.gradesGradeValue = gradesGradeValue;
     }
 }
