@@ -41,6 +41,7 @@ public class CourseAndStudentsOrderedMapper {
                     grades.add(grade.getValue());
                 }
             }
+            studentsOrderedByAverageGradeAscRestModel.setUsername(student.getUsername());
             studentsOrderedByAverageGradeAscRestModel.setGradesGradeValue(grades);
             courseAllOrderedResponse.getStudents().add(studentsOrderedByAverageGradeAscRestModel);
         });

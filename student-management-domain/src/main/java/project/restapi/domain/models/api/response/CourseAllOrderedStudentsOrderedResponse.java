@@ -4,6 +4,7 @@ import java.util.List;
 
 public class CourseAllOrderedStudentsOrderedResponse {
     private Long studentId;
+    private String username;
     private String studentName;
     private Double gradeValue;
     List<Double> gradesGradeValue;
@@ -41,5 +42,13 @@ public class CourseAllOrderedStudentsOrderedResponse {
 
     public void setGradesGradeValue(List<Double> gradesGradeValue) {
         this.gradesGradeValue = gradesGradeValue;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
