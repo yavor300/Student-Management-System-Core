@@ -53,4 +53,5 @@ public class ErrorMessages {
 
     public static final String CHOOSE_DIFFERENT_ROLE = "Choose different role!";
 
+    public static final String COURSE_NAME_CANNOT_BE_EMPTY = "Course name cannot be empty!";
 }

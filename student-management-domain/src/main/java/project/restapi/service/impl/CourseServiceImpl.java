@@ -36,6 +36,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseAddResponse add(CourseAddRequest courseAddRequest) {
+        if (courseAddRequest.getName().trim().isBlank()) {
+            throw new IllegalArgumentException(ErrorMessages.COURSE_NAME_CANNOT_BE_EMPTY);
+        }
+
         if (courseRepository.findByName(courseAddRequest.getName()).isPresent()) {
             throw new ObjectAlreadyExistsException(ErrorMessages.COURSE_ALREADY_EXISTS);
         }
