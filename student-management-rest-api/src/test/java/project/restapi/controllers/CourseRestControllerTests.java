@@ -116,7 +116,7 @@ public class CourseRestControllerTests {
     public void getAverageInCourse_Should_Return_Not_Found() throws Exception {
         courseRepository.deleteAll();
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/course/average/Java")).
+                MockMvcRequestBuilders.get("/api/course/average/1")).
                 andExpect(status().isNotFound());
     }
 
@@ -127,7 +127,7 @@ public class CourseRestControllerTests {
         Course course = new Course();
         course.setName("Java");
         course.setTotalHours(800.0);
-        courseRepository.saveAndFlush(course);
+        Course savedCourse = courseRepository.saveAndFlush(course);
 
         Student student = new Student();
         student.setName("John");
@@ -145,7 +145,7 @@ public class CourseRestControllerTests {
         gradeRepository.saveAndFlush(grade);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/course/average/Java")).
+                MockMvcRequestBuilders.get("/api/course/average/" + savedCourse.getId())).
                 andExpect(status().isOk())
                 .andExpect(jsonPath("name").value("Java"))
                 .andExpect(jsonPath("students[0].studentName").value("John"))

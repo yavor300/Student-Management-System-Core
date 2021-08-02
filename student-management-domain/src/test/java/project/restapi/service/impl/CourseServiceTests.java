@@ -170,10 +170,10 @@ public class CourseServiceTests {
 
     @Test(expected = ObjectNotFoundException.class)
     public void getByName_Should_Throw_ObjectNotFoundException() {
-        Mockito.when(mockCourseRepository.findByName(COURSE_NAME))
+        Mockito.when(mockCourseRepository.findById(ID))
                 .thenReturn(Optional.empty());
 
-        courseService.getByName(COURSE_NAME);
+        courseService.getById(ID);
     }
 
     @Test
@@ -181,10 +181,10 @@ public class CourseServiceTests {
         Course course = new Course();
         course.setId(ID);
 
-        Mockito.when(mockCourseRepository.findByName(COURSE_NAME))
+        Mockito.when(mockCourseRepository.findById(ID))
                 .thenReturn(Optional.of(course));
 
-        Course courseResult = courseService.getByName(COURSE_NAME);
+        Course courseResult = courseService.getById(ID);
 
         Assert.assertEquals(ID, courseResult.getId());
     }
