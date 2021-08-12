@@ -13,4 +13,6 @@ public interface TeacherService {
     List<CourseAverageAll> getCoursesAllAverage();
 
     List<TeacherAllResponse> getAll();
+
+    void seedTeachers();
 }

@@ -3,21 +3,23 @@ package project.restapi.datainit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import project.restapi.service.AdminService;
-import project.restapi.service.CourseService;
-import project.restapi.service.RoleService;
+import project.restapi.service.*;
 
 @Component
 public class DataInitialization implements CommandLineRunner {
     private final CourseService courseService;
     private final RoleService roleService;
     private final AdminService adminService;
+    private final TeacherService teacherService;
+    private final StudentService studentService;
 
     @Autowired
-    public DataInitialization(CourseService courseService, RoleService roleService, AdminService adminService) {
+    public DataInitialization(CourseService courseService, RoleService roleService, AdminService adminService, TeacherService teacherService, StudentService studentService) {
         this.courseService = courseService;
         this.roleService = roleService;
         this.adminService = adminService;
+        this.teacherService = teacherService;
+        this.studentService = studentService;
     }
 
     @Override
@@ -25,5 +27,7 @@ public class DataInitialization implements CommandLineRunner {
         courseService.seedCourses();
         roleService.seedRoles();
         adminService.seedAdmin();
+        teacherService.seedTeachers();
+        studentService.seedStudents();
     }
 }

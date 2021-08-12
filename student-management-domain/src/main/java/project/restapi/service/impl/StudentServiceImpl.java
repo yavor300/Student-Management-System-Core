@@ -189,4 +189,22 @@ public class StudentServiceImpl implements StudentService {
         return studentProfileResponse;
     }
 
+    @Override
+    public void seedStudents() {
+        if (studentRepository.count() == 0) {
+            Student[] students = {
+              new Student("Kaloyan", 22, "9801011234", "kaloyan", bCryptPasswordEncoder.encode("1234")),
+              new Student("Stanimir", 25, "9801011235", "stanimir", bCryptPasswordEncoder.encode("1234")),
+              new Student("Gena", 26, "9801011236", "gena", bCryptPasswordEncoder.encode("1234")),
+              new Student("Mihail", 28, "9801011237", "mihail", bCryptPasswordEncoder.encode("1234"))
+            };
+
+            Arrays.stream(students).
+                    forEach(student -> {
+                        student.setAuthorities(Set.of(roleRepository.findByAuthority(RoleValues.STUDENT)));
+                        studentRepository.save(student);
+                    });
+        }
+    }
+
 }

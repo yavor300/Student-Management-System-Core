@@ -11,6 +11,7 @@ import project.restapi.constants.RegexValidations;
 import project.restapi.constants.RoleValues;
 import project.restapi.domain.entities.Course;
 import project.restapi.domain.entities.Grade;
+import project.restapi.domain.entities.Role;
 import project.restapi.domain.entities.Teacher;
 import project.restapi.domain.entities.enums.Degree;
 import project.restapi.domain.models.api.request.TeacherAddRequest;
@@ -23,7 +24,9 @@ import project.restapi.repository.TeacherRepository;
 import project.restapi.service.TeacherService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,5 +101,23 @@ public class TeacherServiceImpl implements TeacherService {
                 .stream()
                 .map(teacher -> modelMapper.map(teacher, TeacherAllResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void seedTeachers() {
+        if (teacherRepository.count() == 0) {
+            Teacher[] teachers = {
+                    new Teacher("Georgi", "georgi", bCryptPasswordEncoder.encode("1234"), "8909091234", Degree.BACHELOR),
+                    new Teacher("Alex", "alex", bCryptPasswordEncoder.encode("1234"), "8909091235", Degree.MASTERS),
+                    new Teacher("Nikolai", "nikolai", bCryptPasswordEncoder.encode("1234"), "8909091236", Degree.PHD)
+            };
+
+            Arrays.stream(teachers).
+                    forEach(teacher -> {
+                        teacher.setAuthorities(Set.of(roleRepository.findByAuthority(RoleValues.STUDENT),
+                                roleRepository.findByAuthority(RoleValues.TEACHER)));
+                        teacherRepository.save(teacher);
+                    });
+        }
     }
 }

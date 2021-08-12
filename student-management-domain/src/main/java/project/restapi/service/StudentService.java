@@ -23,4 +23,6 @@ public interface StudentService {
     List<StudentAvailableResponse> getStudentsNotInCourse(CourseAvailableStudentsRequest courseAvailableStudentsRequest);
 
     StudentProfileResponse getById(Long id);
+
+    void seedStudents();
 }
